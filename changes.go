@@ -23,6 +23,9 @@ func (d *db) Changes(ctx context.Context, opts map[string]interface{}) (driver.C
 		if f == "continuous" {
 			key = ""
 		}
+		if f == "normal" {
+			key = ""
+		}
 	}
 	query, err := optionsToParams(opts)
 	if err != nil {
