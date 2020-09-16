@@ -23,9 +23,6 @@ func (d *db) Changes(ctx context.Context, opts map[string]interface{}) (driver.C
 		if f == "continuous" {
 			key = ""
 		}
-		if f == "normal" {
-			key = ""
-		}
 	}
 	query, err := optionsToParams(opts)
 	if err != nil {
@@ -109,12 +106,12 @@ func (r *changesRows) Next(row *driver.Change) error {
 
 // LastSeq returns the last sequence ID.
 func (r *changesRows) LastSeq() string {
-	return string(r.lastSeq)
+	return string(r.iter.meta.(*changesMeta).lastSeq)
 }
 
 // Pending returns the pending count.
 func (r *changesRows) Pending() int64 {
-	return r.pending
+	return r.iter.meta.(*changesMeta).pending
 }
 
 // ETag returns the unquoted ETag header for the CouchDB response, if any.
